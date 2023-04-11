@@ -60,17 +60,17 @@ end
 Graphs.add_vertex!(g::AbstractBoundedDegreeGraph) = add_vertices!(g, 1)
 
 _outneigbours(g::AbstractBoundedDegreeGraph, i) = collect(j for j in g.adj[i])
-_inneigbours(g::AbstractBoundedDegreeGraph, i) = collect(i for i in 1:nv(g) for j in g.adj[i])
+_inneigbours(g::AbstractBoundedDegreeGraph, j) = collect(i for i in vertices(g) if j in g.adj[i])
 
 Graphs.outneighbors(g::AbstractBoundedDegreeGraph, i) = _outneigbours(g,i)    
 Graphs.inneighbors(g::AbstractBoundedDegreeGraph, i) = _inneigbours(g,i)
 
-Graphs.outneighbors(g::BoundedDegreeGraph, i) = unique(_outneigbours(g,i), _inneigbours(g,i))    
+Graphs.outneighbors(g::BoundedDegreeGraph, i) = union(_outneigbours(g,i), _inneigbours(g,i))    
 Graphs.inneighbors(g::BoundedDegreeGraph, i) = outneighbors(g, i)
 
 
 Graphs.edges(g::AbstractBoundedDegreeGraph) = ( edgetype(g)(i,j) for i in 1:nv(g) for j in g.adj[i] )
-Graphs.vertices(g::BoundedDegreeGraph) = 1:nv(g)
+Graphs.vertices(g::AbstractBoundedDegreeGraph) = 1:nv(g)
 
 Graphs.is_directed(::Type{AbstractBoundedDegreeGraph}) = true 
 Graphs.is_directed(g::AbstractBoundedDegreeGraph) = true 
