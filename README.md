@@ -14,7 +14,7 @@ So far, the effective speed-up is only moderate. However, it might be useful dur
 
 ## Usage 
 
-The type implements the interface outlined in [Graphs.jl - Developing Alternate Graph Types](https://docs.juliahub.com/Graphs/VJ6vx/1.5.0/developing/). 
+The type implements the interface outlined in [Graphs.jl - Developing Alternate Graph Types](https://juliagraphs.org/Graphs.jl/dev/ecosystem/interface/). 
 
 The two main constructors are
 ```julia
