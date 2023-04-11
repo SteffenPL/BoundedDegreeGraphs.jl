@@ -1,5 +1,10 @@
 module BoundedDegreeGraphs
 
-# Write your package code here.
+    using Graphs
 
+    include("sparsebitlist.jl")
+    include("edges.jl")
+    include("graph.jl")
+
+    export BoundedDegreeDiGraph, BoundedDegreeGraph
 end
