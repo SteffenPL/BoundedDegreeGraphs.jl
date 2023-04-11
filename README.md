@@ -29,7 +29,7 @@ BoundedDegreeGraph( n_nodes, degree)
 
 ## Example 
 
-```
+```julia
 using Graphs
 using BoundedDegreeGraphs
 
