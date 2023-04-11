@@ -1,0 +1,13 @@
+name = "BoundedDegreeGraphs"
+uuid = "3abdc024-f177-4c2d-bf1c-90d4f241f304"
+authors = ["Steffen Plunder <steffen.plunder@web.de> and contributors"]
+version = "0.1.0-DEV"
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
