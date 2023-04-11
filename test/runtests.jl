@@ -37,7 +37,6 @@ function test_allocations(g, edges, add, rem)
     for i in edges, j in rem
         rem_edge!(g, i, j)
     end
-
 end
 
 @testset "allocations" begin        
@@ -47,3 +46,4 @@ end
     g = BoundedDegreeDiGraph(1000, 20)
     @test @allocated( test_allocations(g, 1:1000, 1:20, 11:30) ) == 0
 end
+
