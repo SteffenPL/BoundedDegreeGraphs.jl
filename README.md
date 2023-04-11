@@ -5,10 +5,10 @@
 [![Build Status](https://github.com/SteffenPL/BoundedDegreeGraphs.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/SteffenPL/BoundedDegreeGraphs.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Coverage](https://codecov.io/gh/SteffenPL/BoundedDegreeGraphs.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/SteffenPL/BoundedDegreeGraphs.jl)
 
-**This package is work in progress!**
+**Work in progress!**
 --
 
-This package provides simple graph types which does not allocate during the operations `add_edge!, rem_edge!, has_edge`, provided that the graph stays within the pre-defined bounded degree. (If the degree is exeeded, then the type might occasionally allocate, but still works.)
+This package provides simple graph types which do not allocate during the operations `add_edge!, rem_edge!, has_edge`, provided that the graph stays within the pre-defined bounded degree. (If the degree is exeeded, then the type might occasionally allocate, but still works.)
 
 So far, the effective speed-up is only moderate. However, it might be useful during the typical hunt for allocations.
 
