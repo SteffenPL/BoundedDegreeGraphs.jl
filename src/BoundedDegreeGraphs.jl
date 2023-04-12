@@ -6,5 +6,5 @@ module BoundedDegreeGraphs
     include("edges.jl")
     include("graph.jl")
 
-    export BoundedDegreeDiGraph, BoundedDegreeGraph
+    export BoundedDegreeDiGraph, BoundedDegreeGraph, BoundedDegreeMetaGraph, BoundedDegreeMetaDiGraph
 end

@@ -73,9 +73,6 @@ end
     @test @allocated( test_allocations(g, 1:1000, 1:20, 11:30) ) == 0
 end
 
-
-
-
 @testset "edge types" begin        
     ue = BoundedDegreeGraphs.init_edge(BoundedDegreeGraphs.UnorderedEdge{Int64}, 10, 2)
     @test src(ue) == 10
@@ -102,3 +99,70 @@ end
 
     @test( @allocated( sbl[2] = true) == 0 ) 
 end
+
+#@testset "meta graphs" begin 
+@testset "undirected meta graphs" begin
+    g = BoundedDegreeMetaGraph(0, 3, Inf64, (x = 0.0, y = 0.0))
+    for i in 1:10, j in 1:10
+        add_vertex!(g, (x = i, y = j))
+    end 
+
+    @test g[3*10 + 2 - 10].x == 3
+    @test g[3*10 + 2 - 10].y == 2
+
+    @test add_edge!(g, 60, 10, 6.1)
+    @test add_edge!(g, 10, 10)
+
+
+    @test g[60, 10] == g[10, 60] 
+    @test g[60, 10] == 6.1
+    @test isinf(g[10, 10])
+    @test rem_edge!(g, 60, 10)
+end
+
+@testset "directed meta graphs" begin
+    g = BoundedDegreeMetaDiGraph(10, 3, Inf64, (x = 0.0, y = 0.0))
+    add_vertex!(g, (x = 1.0, y = 1.0))
+
+    @test g[10].x == 0.0
+    @test g[11].x == 1.0
+
+    @test add_edge!(g, 11, 10, 6.1)
+    @test add_edge!(g, 10, 10)
+
+    @test !has_edge(g, 10, 11) 
+    @test has_edge(g, 11, 10)
+    @test g[11, 10] == 6.1
+    @test isinf(g[10, 10])
+    @test rem_edge!(g, 11, 10)
+    @test rem_edge!(g, 10, 10)
+end
+
+
+function test_allocations_meta(g, edges, add, x, rem)
+    for i in edges, j in add
+        add_edge!(g, i, j, x[j])
+    end
+
+    s = 0.0
+    for i in edges, j in rem 
+        if has_edge(g, i, j)
+            s += g[i,j]
+        end
+    end
+
+    for i in edges, j in rem
+        rem_edge!(g, i, j)
+    end
+    return s
+end
+
+@testset "allocations with edge data" begin        
+    g = BoundedDegreeMetaDiGraph(1000, 20, Inf64)
+    x = rand(20)
+    test_allocations_meta(g, 1:1000, 1:20, x, 11:30)  # warm start
+    
+    g = BoundedDegreeMetaDiGraph(1000, 20)
+    @test @allocated( test_allocations_meta(g, 1:1000, 1:20, x, 11:30) ) == 0
+end
+

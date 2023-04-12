@@ -11,37 +11,52 @@ Base.iterate(g::SparseBitList) = iterate(g, 1)
 Base.eltype(::Type{SparseBitList{T}}) where {T} = T
 
 function Base.iterate(g::SparseBitList, state)
-    for i in state:lastindex(g.data)
-        if g.data[i] > 0
-            return (g.data[i], i+1)
+    for j in state:lastindex(g.data)
+        if g.data[j] > 0
+            return (g.data[j], j+1)
         end
     end
     return nothing
 end
 
-Base.getindex(bl::SparseBitList, i) = in(i, bl.data)
-function Base.setindex!(bl::SparseBitList, val, i) 
-
-    if val == true 
-        k = findfirst(==(i), bl.data)
-        if !isnothing(k)
-            return false  # bit already exists  
-        end 
-
+function Base.push!(bl::SparseBitList, j, set_callback = (j, k) -> nothing, push_callback = (j, k) -> nothing)
+    k = findfirst(==(j), bl.data)
+    if isnothing(k)
         k = findfirst(==(0), bl.data)
         if isnothing(k)
-            push!(bl.data, 0)
+            push!(bl.data, j)
             k = lastindex(bl.data) 
+            push_callback(j, k)
+        else 
+            bl.data[k] = j
+            set_callback(j, k)
         end
-        bl.data[k] = i
+        return true 
     else 
-        k = findfirst(==(i), bl.data)
-        if isnothing(k)
-            return false
-        else
-            bl.data[k] = 0
-        end
+        set_callback(j, k)
     end
+    return false
+end
 
-    return true
+function Base.pop!(bl::SparseBitList, j)
+    k = findfirst(==(j), bl.data)
+    if isnothing(k)
+        return false
+    else
+        bl.data[k] = 0
+        return true
+    end
+end
+
+function dataindex(bl::SparseBitList, j)
+    return findfirst(==(j), bl.data)    
+end
+
+Base.getindex(bl::SparseBitList, j) = in(j, bl.data)
+function Base.setindex!(bl::SparseBitList, val, j) 
+    if val == true 
+        return push!(bl, j)
+    else 
+        return pop!(bl, j)
+    end
 end
