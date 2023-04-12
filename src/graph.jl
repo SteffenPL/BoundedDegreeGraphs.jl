@@ -157,7 +157,7 @@ function Base.getindex(g::AbstractBoundedDegreeMetaGraph, e::T) where {T <: Unio
 end
 Base.getindex(g::AbstractBoundedDegreeMetaGraph, i, j) = getindex(g, init_edge(edgetype(g),i,j))    
 
-function Base.setindex!(g::AbstractBoundedDegreeMetaGraph, val, e::OrderedEdge)
+function Base.setindex!(g::AbstractBoundedDegreeMetaGraph, val, e::T) where {T <: Union{OrderedEdge,UnorderedEdge}}
     adj_i = g.adj[src(e)]
     edges_i = g.edge_data[src(e)]
     k = dataindex(adj_i, dst(e))

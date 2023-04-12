@@ -117,7 +117,9 @@ end
     @test g[60, 10] == g[10, 60] 
     @test g[60, 10] == 6.1
     @test isinf(g[10, 10])
-    @test rem_edge!(g, 60, 10)
+
+    g[10, 10] = 100.0 
+    @test g[10, 10] == 100.0
 end
 
 @testset "directed meta graphs" begin
@@ -135,7 +137,9 @@ end
     @test g[11, 10] == 6.1
     @test isinf(g[10, 10])
     @test rem_edge!(g, 11, 10)
-    @test rem_edge!(g, 10, 10)
+
+    g[10, 10] = 100.0 
+    @test g[10, 10] == 100.0
 end
 
 

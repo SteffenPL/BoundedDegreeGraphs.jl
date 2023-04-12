@@ -8,7 +8,10 @@
 **Work in progress!**
 --
 
-This package provides simple graph types which do not allocate during the operations `add_edge!, rem_edge!, has_edge`, provided that the graph stays within the pre-defined bounded degree. (If the degree is exeeded, then the type might occasionally allocate, but still works.)
+This package provides simple graph types which do preallocate data such that the operations `add_edge!, rem_edge!, has_edge` are in-place for bounded degree graphs. 
+(If the degree is exeeded, then the type might occasionally allocate, but still works.)
+
+The preallocated memory is of size `n_edges * degree * sizeof(edgetype(g))`.
 
 So far, the effective speed-up is only moderate. However, it might be useful during the typical hunt for allocations.
 
@@ -25,6 +28,34 @@ for a directional graph with `n_nodes` and pre-allocated lists for bounded graph
 For undirected graphs, one can use
 ```julia
 BoundedDegreeGraph( n_nodes, degree)
+```
+
+Metadata for vertices and edges is also supported, with the types 
+```julia
+n_nodes = 10
+degree = 4 
+edge_default = Inf64 
+vertex_default = (x = 0.0, y = 0.0)
+g = BoundedDegreeMetaDiGraph(n_nodes, degree, edge_default, vertex_default) 
+```
+where `edge_default` is the value assigned to edges if an edge is created without providing some data. Similar, `vertex_default` is the default (and inital) value for all vertices.
+
+For adding new vertices and edges with metadata, use the corresponding functions with added argument:
+```julia
+add_edge!(g, 1, 2)
+g[1, 2] == Inf64 
+add_edge!(g, 1, 3, 1.0)
+g[1, 3] == 1.0
+g[1, 3] = 10.0  # overwriting meta data
+
+add_vertex!(g, (x = 1.0, y = 0.0))
+g[11] == (x = 1.0, y = 0.0)
+g[11] = (x = 1.1, y = 0.1)  # overwriting meta data
+```
+
+The same interface works for undirected graphs with metadata, using the constructor 
+```julia
+g = BoundedDegreeMetaGraph(n_nodes, degree, edge_default, vertex_default) 
 ```
 
 ## Example 
