@@ -22,7 +22,12 @@ _The original application is for biological modelling of cell migration, where o
 
 ## Usage 
 
-The type implements the interface outlined in [Graphs.jl - Developing Alternate Graph Types](https://juliagraphs.org/Graphs.jl/dev/ecosystem/interface/). 
+The type implements the interface outlined in [Graphs.jl - Developing Alternate Graph Types](https://juliagraphs.org/Graphs.jl/dev/ecosystem/interface/). To use the packge, one should include `Graphs.jl`, i.e. 
+```julia
+using Graphs
+using BoundedDegreeGraphs
+```
+
 
 The two main constructors are
 ```julia
