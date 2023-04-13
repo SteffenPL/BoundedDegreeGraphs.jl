@@ -89,7 +89,7 @@ Graphs.rem_edge!(g::AbstractBoundedDegreeGraph, i, j) = rem_edge!(g, init_edge(e
 function Graphs.add_vertices!(g::AbstractBoundedDegreeGraph, n::T) where {T<:Integer} 
     n_old = nv(g)
     
-    if n <= n_old
+    if n <= 0
         return nothing 
     end
     
@@ -178,7 +178,7 @@ Base.setindex!(g::AbstractBoundedDegreeMetaGraph, val, i, j) = setindex!(g, val,
 function Graphs.add_vertices!(g::AbstractBoundedDegreeMetaGraph, n::T, vals = (g.vertex_default,)) where {T<:Integer} 
     n_old = nv(g)
 
-    if n <= n_old
+    if n <= 0
         return nothing 
     end
     
