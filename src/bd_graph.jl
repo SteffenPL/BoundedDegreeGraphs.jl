@@ -5,7 +5,7 @@ struct BoundedDegreeGraph{T} <: AbstractBoundedDegreeGraph{T}
 end
 
 function BoundedDegreeGraph(n, degree)
-    @assert degree > 0 "Degree must be positive"
+    degree < 0 && @error "Degree must be positive"
     adj = map( i -> SparseBitList(degree), 1:n )
     return BoundedDegreeGraph(adj, degree)
 end

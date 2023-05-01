@@ -9,7 +9,7 @@ struct BoundedDegreeMetaDiGraph{T,ET,VT} <: AbstractBoundedDegreeMetaGraph{T}
 end
 
 function BoundedDegreeMetaDiGraph(n, degree, edge_default = Inf64, vertex_default = nothing)
-    @assert degree > 0 "Degree must be positive"
+    degree < 0 && @error "Degree must be positive"
     adj = map( i -> SparseBitList(degree), 1:n )
     edge_data = map( i -> fill(edge_default, degree), 1:n )
     vertex_data = fill(vertex_default, n)

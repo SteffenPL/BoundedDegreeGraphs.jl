@@ -164,3 +164,28 @@ end
     @test @allocated( test_allocations_meta(g, 1:1000, 1:20, x, 11:30) ) == 0
 end
 
+#=
+# the following test needs 1 allocation (16 bits)
+
+@testset "type stability of edge iteration" begin 
+    g = BoundedDegreeMetaDiGraph(0, 3, Inf64, (x = 0.0, y = 0.0))
+    for i in 1:10, j in 1:10
+        add_vertex!(g, (x = i, y = j))
+    end
+    
+    for i in 1:10, j in 1:10
+        add_edge!(g, i, j, 1.0)
+    end
+    
+    function test_types(g)
+        x = 0.0
+        for e in edges(g) 
+            x += src(e) 
+        end
+        return x 
+    end
+    
+    test_types(g)
+    @test @allocated( test_types(g) ) == 0
+end
+=#
