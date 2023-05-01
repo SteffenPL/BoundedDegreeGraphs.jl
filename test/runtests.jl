@@ -94,8 +94,6 @@ end
 end
 
 
-g = BoundedDegreeMetaGraph(0, 3, Inf64, (x = 0.0, y = 0.0))
-
 #@testset "meta graphs" begin 
 @testset "undirected meta graphs" begin
     g = BoundedDegreeMetaGraph(0, 3, Inf64, (x = 0.0, y = 0.0))
