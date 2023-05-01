@@ -37,7 +37,7 @@ end
 
     @test add_edge!(g, 1, 2)  
     @test has_edge(g, 1, 2) 
-    @test has_edge(g, 2, 1)  # different for undirection 
+    @test has_edge(g, 2, 1)
     @test rem_edge!(g, 2, 1) 
     @test !has_edge(g, 1, 2) 
 
@@ -45,12 +45,13 @@ end
     @test add_edge!(g, 1, 2)  
     @test add_edge!(g, 3, 2) 
     
-    @test BoundedDegreeGraphs.OrderedEdge(1,2) in edges(g)
+    @test Graphs.SimpleEdge(1,2) in edges(g)
     @test sort(inneighbors(g, 2)) == [1, 3]
 
     @test !is_directed(g)
 end
 
+     
 function test_allocations(g, edges, add, rem)
     for i in edges, j in add
         add_edge!(g, i, j)
@@ -73,14 +74,6 @@ end
     @test @allocated( test_allocations(g, 1:1000, 1:20, 11:30) ) == 0
 end
 
-@testset "edge types" begin        
-    ue = BoundedDegreeGraphs.init_edge(BoundedDegreeGraphs.UnorderedEdge{Int64}, 10, 2)
-    @test src(ue) == 10
-
-    oe = BoundedDegreeGraphs.init_edge(BoundedDegreeGraphs.OrderedEdge{Int64}, 10, 2)
-    @test src(oe) == 2
-end
-
 @testset "sparsebitlist" begin 
     sbl = BoundedDegreeGraphs.SparseBitList(10)
     @test length(sbl) == 0
@@ -99,6 +92,9 @@ end
 
     @test( @allocated( sbl[2] = true) == 0 ) 
 end
+
+
+g = BoundedDegreeMetaGraph(0, 3, Inf64, (x = 0.0, y = 0.0))
 
 #@testset "meta graphs" begin 
 @testset "undirected meta graphs" begin
