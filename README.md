@@ -12,8 +12,9 @@
 
 This package provides simple graph types which do preallocate data such that the operations `add_edge!, rem_edge!, has_edge` are in-place for bounded degree graphs (also called uniformly sparse graphs). 
 
-The preallocated memory is of size `n_edges * degree * sizeof(edgetype(g))`.
+- The preallocated memory is of size $\mathcal{O}( \Vert G \Vert \mathrm{deg}(G) )$.
 If the degree is exeeded, then the type might occasionally allocate, but still works.
+- The operations `has_edge`, `add_edge` and `rem_edge` take $\mathcal{O}( \mathrm{deg}(G) )$ time, since it required to iterate a list of size $\mathrm{deg}(G)$. 
 
 So far, the effective speed-up is only moderate. However, it is helpful in settings where allocations need to be avoided.
 
