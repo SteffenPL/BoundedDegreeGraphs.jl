@@ -7,16 +7,12 @@
 [![Build Status](https://github.com/SteffenPL/BoundedDegreeGraphs.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/SteffenPL/BoundedDegreeGraphs.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Coverage](https://codecov.io/gh/SteffenPL/BoundedDegreeGraphs.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/SteffenPL/BoundedDegreeGraphs.jl)
 
-> The package is currently under development and should be considered as work in progress! The interface and implementation might change in the future.
-
-
 This package provides simple graph types which do preallocate data such that the operations `add_edge!, rem_edge!, has_edge` are in-place for bounded degree graphs (also called uniformly sparse graphs). 
 
 - The preallocated memory is of size $\mathcal{O}( \Vert G \Vert \mathrm{deg}(G) )$.
 If the degree is exeeded, then the type might occasionally allocate, but still works.
 - The operations `has_edge`, `add_edge` and `rem_edge` take $\mathcal{O}( \mathrm{deg}(G) )$ time, since it required to iterate a list of size $\mathrm{deg}(G)$. 
-
-So far, the effective speed-up is only moderate. However, it is helpful in settings where allocations need to be avoided.
+- In the simple test case below, the speed-up compared to `SimpleGraph` is by a factor $\times 2$. **Speedup holds only for small degrees!**
 
 ### Application in agent-based modelling
 _The original application is for biological modelling of cell migration, where one has to dynamically create and destroy adhesive contacts between cells. Due to geometric constraints the resulting graph is of bounded degree._
