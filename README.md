@@ -72,9 +72,7 @@ g = BoundedDegreeMetaGraph(n_nodes, degree, edge_default, vertex_default)
 ## Example 
 
 ```julia
-using Graphs
-using BoundedDegreeGraphs
-
+using Graphs, BoundedDegreeGraphs
 
 # testing for allocations
 function test_allocations(g, edges, add, rem)
@@ -97,13 +95,25 @@ g = BoundedDegreeDiGraph(1000, degree)
 test_allocations(g, 1:1000, 1:20, 11:30)  # warm start
 
 g = BoundedDegreeDiGraph(1000, 20)
-@time test_allocations(g, 1:1000, 1:20, 11:30)  # 0.001040 seconds
+@time test_allocations(g, 1:1000, 1:20, 11:30)  
+# 0.001040 seconds
 
 g = SimpleDiGraph(1000)
-test_allocations(g, 1:1000, 1:20, 11:30)
+@time test_allocations(g, 1:1000, 1:20, 11:30)
 
 g = SimpleDiGraph(1000) 
-@time test_allocations(g, 1:1000, 1:20, 11:30)  # 0.001930 seconds (2.10 k allocations: 842.188 KiB)
+@time test_allocations(g, 1:1000, 1:20, 11:30)  
+# 0.001930 seconds (2.10 k allocations: 842.188 KiB)
+
+#=
+# This is not a timing artefact. The difference is still there with BenchmarkTools:
+using BenchmarkTools
+@btime test_allocations(g, 1:1000, 1:20, 11:30) setup = (g = BoundedDegreeDiGraph(1000, 20)) 
+# 379.292 μs (0 allocations: 0 bytes)
+
+@btime test_allocations(g, 1:1000, 1:20, 11:30) setup = (g = SimpleDiGraph(1000)) 
+# 710.905 μs (2100 allocations: 842.19 KiB)
+=#
 ```
 
 # Internal representation
