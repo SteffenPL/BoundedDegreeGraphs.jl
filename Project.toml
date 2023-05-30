@@ -1,7 +1,7 @@
 name = "BoundedDegreeGraphs"
 uuid = "3abdc024-f177-4c2d-bf1c-90d4f241f304"
 authors = ["Steffen Plunder <steffen.plunder@web.de> and contributors"]
-version = "0.2.0"
+version = "0.1.0"
 
 [deps]
 Graphs = "86223c79-3864-5bf0-83f7-82e725a168b6"
